@@ -7,6 +7,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
 import org.springframework.stereotype.Service;
 
 import com.zyme.pojo.SearchResult;
@@ -41,4 +42,14 @@ public class SolrSearchService {
 		return results;
 	}
 
+	public void saveDocument(SolrInputDocument doc){
+		try {
+			HttpSolrClient server = SolrUtil.getSolrServer();
+			server.add(doc);
+			server.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

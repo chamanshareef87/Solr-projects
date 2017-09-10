@@ -7,7 +7,9 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
 
 public class SolrUtil {
 
@@ -61,5 +63,13 @@ public class SolrUtil {
 		return list;
 	}
     
-    
+	  public static SolrInputDocument toSolrInputDocument( SolrDocument d )
+	  {
+	    SolrInputDocument doc = new SolrInputDocument();
+	    for( String name : d.getFieldNames() ) {
+	      doc.addField( name, d.getFieldValue(name), 1.0f );
+	    }
+	    return doc;
+	  }
+
 }

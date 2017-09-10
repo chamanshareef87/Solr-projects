@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.solr.common.SolrDocument;
 
+import com.zyme.model.ScrapeData;
 import com.zyme.pojo.SearchResult;
 import com.zyme.pojo.TermCount;
 
@@ -27,4 +28,15 @@ public class DocumentConverter {
 		result.setTermcountlist(termCountList);
 		return result;
 	}
+
+	public static SolrDocument getSolrDocument(ScrapeData scrapeData) {
+		SolrDocument doc = new SolrDocument();
+		doc.setField("id", scrapeData.getId());
+		doc.setField("company", scrapeData.getCompany());
+		doc.setField("url", scrapeData.getUrl());
+		doc.setField("content", scrapeData.getContent());
+		return doc;
+	}
+	
+	
 }
