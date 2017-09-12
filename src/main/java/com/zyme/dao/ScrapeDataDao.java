@@ -8,6 +8,7 @@ public interface ScrapeDataDao {
 
 	public void save(ScrapeData s);
 	public List<com.zyme.model.ScrapeData> list();
+	public List<ScrapeData> getUncrawled();
 	public ScrapeData getByurl(String url);
 	
 }

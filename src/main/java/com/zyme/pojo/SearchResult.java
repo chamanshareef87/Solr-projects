@@ -8,6 +8,14 @@ public class SearchResult {
 	String domain;
 	String url;
 	String pageContent;
+	int count;
+	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	List<TermCount> termcountlist;
 	public String getId() {
 		return id;

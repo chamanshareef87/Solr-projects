@@ -18,23 +18,32 @@ public class SolrUtil {
     public static HttpSolrClient getSolrServer()
     {
     	if(server==null)
-        server = new HttpSolrClient.Builder("http://127.0.0.1:8983/solr/scraperdata").build();
+//        server = new HttpSolrClient.Builder("http://127.0.0.1:8983/solr/scraperdata").build();
+        server = new HttpSolrClient.Builder("http://172.16.4.76:8983/solr/scraperdata").build();
+
     	return server;
     }
 
-	public SolrQuery getSolrQuery(String domain, String[] termList) {
+	public SolrQuery getSolrQuery(String domain, String terms) {
 		SolrQuery query = null;
 		try {
+
 			query = new SolrQuery();
-			query.setQuery("url:"+domain);
-			query.set("q", "url:"+domain);
-			
-			query.setFilterQueries("url:"+domain);
+//			query.setQuery("company:"+domain);
+//			query.set("q", "company:"+domain);
+			query.setQuery("content:"+terms);
+			query.set("q", "content:"+terms);
+
+			String[] termList = terms.split("\\s+");
+
+//			query.setFilterQueries("company:"+domain);
 //			query.setFields("id","company","url","content", "Terms-aaa:termfreq(\"content\",\"aaa\")","Terms-bbb:termfreq(\"content\",\"bbb\")");
-			query.addField("id");
-			query.addField("company");
+//			query.addField("id");
+//			query.addField("company");
 			query.addField("url");
-			query.addField("content");
+//			query.addField("content");
+//			query.addField(terms+":termfreq(\"content\",\""+terms+"\")");
+
 			for(String term : termList){
 				query.addField(term+"_Count"+":termfreq(\"content\",\""+term+"\")");
 			}

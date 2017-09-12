@@ -22,21 +22,20 @@ public class SolrSearchService {
 		List<SearchResult> results = new ArrayList<SearchResult>();
 		System.out.println("get results at service");
 		
-		String[] termList = terms.split("\\s+");
 		HttpSolrClient server = SolrUtil.getSolrServer();
-		SolrQuery query = solrutil.getSolrQuery(domain, termList);
+		SolrQuery query = solrutil.getSolrQuery(domain, terms);
 
 		SolrDocumentList docsList = solrutil.getSolrDocs(server, query);
-		results = getResultFromSolr(docsList, termList);
+		results = getResultFromSolr(docsList, terms);
 		
 		return results;
 		
 	}
 	
-	private List<SearchResult> getResultFromSolr(SolrDocumentList docsList, String[] termList) {
+	private List<SearchResult> getResultFromSolr(SolrDocumentList docsList, String terms) {
 		List<SearchResult> results = new ArrayList<SearchResult>();
 		for(SolrDocument doc : docsList){
-			SearchResult result = DocumentConverter.getResultFromDocument(doc, termList);
+			SearchResult result = DocumentConverter.getResultFromDocument(doc, terms);
 			results.add(result);
 		}
 		return results;

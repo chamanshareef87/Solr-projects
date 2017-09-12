@@ -3,7 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.zyme.solr</groupId>
   <artifactId>solrservice</artifactId>
-  <version>0.0.1</version>
+  <version>1</version>
+  <packaging>war</packaging>
   
   <parent>
         <groupId>org.springframework.boot</groupId>
@@ -15,6 +16,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -84,6 +90,7 @@
     
     <properties>
         <java.version>1.8</java.version>
+    	<start-class>com.zyme.solr.Application</start-class>
     </properties>
     
     <build>

@@ -14,9 +14,10 @@ public class SolrClientController {
 	
 	@RequestMapping("/getResults")
 	public List<SearchResult> getSearchResult(
-			@RequestParam(value = "domain") String domain,
+//			@RequestParam(value = "domain") String domain,
 			@RequestParam(value = "terms") String terms
 			) {	
+		String domain = "";
 		System.out.println("get results at controller"+domain+terms);
 		SolrSearchService solrSearchService = new SolrSearchService();
 		List<SearchResult> results = solrSearchService.getResults(domain, terms );

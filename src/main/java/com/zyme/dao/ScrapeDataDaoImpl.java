@@ -32,6 +32,20 @@ public class ScrapeDataDaoImpl implements ScrapeDataDao {
 		Session session = this.sessionFactory.openSession();
 		List<ScrapeData> scrapeList = session.createQuery("from ScrapeData").list();
 		session.close();
+		for(ScrapeData s : scrapeList){
+			s.setContent("");
+		}
+		return scrapeList;
+	}
+
+	public List<ScrapeData> getUncrawled() {
+
+		Session session = this.sessionFactory.openSession();
+		List<ScrapeData> scrapeList = session.createQuery("from ScrapeData where content is null or content="+"''").list();
+		session.close();
+		for(ScrapeData s : scrapeList){
+			s.setContent("");
+		}
 		return scrapeList;
 	}
 
