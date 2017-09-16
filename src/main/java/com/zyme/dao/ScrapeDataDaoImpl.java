@@ -6,9 +6,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Component;
 
 import com.zyme.model.ScrapeData;
 
+@Component
 public class ScrapeDataDaoImpl implements ScrapeDataDao {
 
 	private SessionFactory sessionFactory;
@@ -17,14 +19,20 @@ public class ScrapeDataDaoImpl implements ScrapeDataDao {
         this.sessionFactory = sessionFactory;
     }
 
-	public void save(ScrapeData sd) {
+	public List<ScrapeData> saveList(List<ScrapeData> sdList) {
+		for(ScrapeData sd : sdList){
+			save(sd);
+		}
+		return sdList;
+	}
+
+	public ScrapeData save(ScrapeData sd) {
 		Session session = this.sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-//		session.persist(sd);
 		session.saveOrUpdate(sd);
 		tx.commit();
 		session.close();
-		
+		return sd;
 	}
 
 	public List<ScrapeData> list() {
@@ -35,6 +43,22 @@ public class ScrapeDataDaoImpl implements ScrapeDataDao {
 		for(ScrapeData s : scrapeList){
 			s.setContent("");
 		}
+		return scrapeList;
+	}
+
+	public ScrapeData readById(int id) {
+
+		Session session = this.sessionFactory.openSession();
+		ScrapeData scrapedata = (ScrapeData) session.createQuery("from ScrapeData where id="+"'"+id+"'").uniqueResult();
+		session.close();
+		return scrapedata;
+	}
+
+	public List<ScrapeData> readByDomain(String domain) {
+
+		Session session = this.sessionFactory.openSession();
+		List<ScrapeData> scrapeList = (List<ScrapeData>)session.createQuery("from ScrapeData where company="+"'"+domain+"'").list();
+		session.close();
 		return scrapeList;
 	}
 

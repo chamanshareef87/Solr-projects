@@ -19,7 +19,7 @@ public class SolrUtil {
     {
     	if(server==null)
 //        server = new HttpSolrClient.Builder("http://127.0.0.1:8983/solr/scraperdata").build();
-        server = new HttpSolrClient.Builder("http://172.16.4.76:8983/solr/scraperdata").build();
+        server = new HttpSolrClient.Builder("http://localhost:8983/solr/scraperdata").build();
 
     	return server;
     }

@@ -45,8 +45,12 @@
 		</property>
 	</bean>
 
-	<bean id="ScrapeDataDao" class="com.zyme.dao.ScrapeDataDaoImpl">
+	<bean id="scrapeDataDao" class="com.zyme.dao.ScrapeDataDaoImpl">
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</bean>
+	
+<!-- 	<bean id="scrapedataController" class="com.zyme.solr.ScrapedataController">
+		<property name="scrapeDataDao" ref="scrapeDataDao" />
+	</bean> -->
 	
 </beans>

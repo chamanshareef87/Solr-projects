@@ -34,32 +34,12 @@ public class CrawllerController {
 	    	
 	    	System.out.println("hello crawl");
 	    	try {
-				System.out.println("at crawling method....");
-				String crawlStorageFolder = "../../../src/main/resources/data";
-				int numberOfCrawlers = 1;
-				CrawlConfig config = new CrawlConfig();
-				config.setCrawlStorageFolder(crawlStorageFolder);
-				config.setMaxDepthOfCrawling(0);
-				config.setMaxPagesToFetch(10);
-				config.setPolitenessDelay(500);
-				
-				PageFetcher pageFetcher = new PageFetcher(config);
-				RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
-				RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
-				CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
-				
-//				List<ScrapeData> datalist =readurls();
 				List<ScrapeData> datalist =getUncrawledUrls();
-				for(ScrapeData sdata : datalist){
-					controller.addSeed(sdata.getUrl());
-				}
-				
-				controller.start(MyCrawler.class, numberOfCrawlers);
+				crawlData(datalist);
 	    	} catch (Exception e) {
 				System.out.println("Exception:::::");
 				e.printStackTrace();
 			}
-	    	
 	    	return "crawl successful.";
 	    }
 	    
@@ -68,6 +48,19 @@ public class CrawllerController {
 	    	
 	    	System.out.println("hello crawl");
 	    	try {
+		    	ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
+				List<ScrapeData> datalist = scrapeDao.list();
+				crawlData(datalist);
+	    	} catch (Exception e) {
+				System.out.println("Exception:::::");
+				e.printStackTrace();
+			}
+	    	
+	    	return "crawl successful.";
+	    }
+
+	   public void  crawlData(List<ScrapeData> datalist ){
+			try {
 				System.out.println("at crawling method....");
 				String crawlStorageFolder = "../../../src/main/resources/data";
 				int numberOfCrawlers = 1;
@@ -81,21 +74,17 @@ public class CrawllerController {
 				RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
 				RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 				CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
-				
-				List<ScrapeData> datalist =readurls();
 				for(ScrapeData sdata : datalist){
 					controller.addSeed(sdata.getUrl());
 				}
-				
 				controller.start(MyCrawler.class, numberOfCrawlers);
-	    	} catch (Exception e) {
-				System.out.println("Exception:::::");
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-	    	
-	    	return "crawl successful.";
+    
 	    }
-	    
+	   
+	   
 	    private List<ScrapeData> getUncrawledUrls() throws Exception{
 	    	
 	    	ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
@@ -105,11 +94,8 @@ public class CrawllerController {
 
 		@RequestMapping("/readurls")
 	    public List<ScrapeData> readurls() {
-			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-
-			ScrapeDataDao scrapeDao = context.getBean(ScrapeDataDao.class);
+	    	ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
 			List<ScrapeData> list = scrapeDao.list();
-			context.close();	
 			return list;
 	    }
 
@@ -120,7 +106,6 @@ public class CrawllerController {
 			ScrapeDataDao scrapeDao = context.getBean(ScrapeDataDao.class);
 			System.out.println("url::::::"+url);
 			ScrapeData data = scrapeDao.getByurl(url);
-//			System.out.println("ScrapeData ::"+data.toString());
 			context.close();	
 			return data;
 	    }

@@ -7,6 +7,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 
+
 @SpringBootApplication
 @ImportResource("classpath:spring.xml")
 public class Application  extends SpringBootServletInitializer {
@@ -18,5 +19,6 @@ public class Application  extends SpringBootServletInitializer {
 	
 	 public static void main(String[] args) {
 	        SpringApplication.run(Application.class, args);
+//	        ApplicationContextLoader  ap = new ApplicationContextLoader(); 
 	    }
 }
