@@ -24,14 +24,25 @@ public class SolrSearchService {
 		
 		HttpSolrClient server = SolrUtil.getSolrServer();
 		SolrQuery query = solrutil.getSolrQuery(domain, terms);
+		SolrDocumentList docsList = solrutil.getSolrDocs(server, query);
+		results = getResultFromSolr(docsList, terms);
+		return results;
+	}
 
+	public List<SearchResult> getResultsByDomain(String domain, String terms) {
+		List<SearchResult> results = new ArrayList<SearchResult>();
+		System.out.println("get results at service");
+		
+		HttpSolrClient server = SolrUtil.getSolrServer();
+		SolrQuery query = solrutil.getDomainSolrQuery(domain, terms);
+		System.out.println("Query:::"+query.toQueryString());
 		SolrDocumentList docsList = solrutil.getSolrDocs(server, query);
 		results = getResultFromSolr(docsList, terms);
 		
 		return results;
 		
 	}
-	
+
 	private List<SearchResult> getResultFromSolr(SolrDocumentList docsList, String terms) {
 		List<SearchResult> results = new ArrayList<SearchResult>();
 		for(SolrDocument doc : docsList){

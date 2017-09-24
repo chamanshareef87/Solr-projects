@@ -58,6 +58,26 @@ public class SolrUtil {
 
 	}
 
+	public SolrQuery getDomainSolrQuery(String domain, String terms) {
+		SolrQuery query = null;
+		try {
+			query = new SolrQuery();
+			query.setQuery("company:"+"\""+domain+"\"");
+//			query.setQuery("content:"+terms);
+//			query.set("q", "content:"+terms);
+			String[] termList = terms.split("\\s+");
+			query.addField("url");
+			for(String term : termList){
+				query.addField(term+"_Count"+":termfreq(\"content\",\""+term+"\")");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return query;
+	}
+
+
 	public SolrDocumentList getSolrDocs(HttpSolrClient server, SolrQuery query) {
 		QueryResponse response;
 		SolrDocumentList list = null;

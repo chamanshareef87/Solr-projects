@@ -1,10 +1,8 @@
-package com.zyme.solr;
+package com.zyme.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +15,6 @@ import com.zyme.model.ScrapeData;
 @RestController
 public class ScrapedataController {
 
-	@Autowired
 	private ScrapeDataDao scrapeDataDao;
 	
     public ScrapeDataDao getScrapeDataDao() {
@@ -37,23 +34,23 @@ public class ScrapedataController {
     
     @RequestMapping("/readById")
     public ScrapeData readById(@RequestParam(value="id", required=true) int id) {
-		ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
-		ScrapeData obj = scrapeDao.readById(id);
+//		ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
+		ScrapeData obj = scrapeDataDao.readById(id);
 		return obj;
     }
 
     @RequestMapping("/readByDomain")
     public List<ScrapeData> readByDomain(@RequestParam(value="domain", required=true) String domain) {
-		ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
-		List<ScrapeData> list = scrapeDao.readByDomain(domain);
+//		ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
+		List<ScrapeData> list = scrapeDataDao.readByDomain(domain);
 		return list;
     }
 
     @RequestMapping(value="/add", method = RequestMethod.POST)
     public ScrapeData addData(@RequestBody ScrapeData data) {
-		ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
+//		ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
 		if(null != data){
-			data = scrapeDao.save(data);
+			data = scrapeDataDao.save(data);
 		}
 		CrawllerController crawllerController = new CrawllerController();
 		List<ScrapeData> list = new ArrayList<ScrapeData>();
@@ -68,9 +65,9 @@ public class ScrapedataController {
     	for(ScrapeData data : dataList){
     		System.out.println(data.toString());
     	}
-    	ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
+//    	ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
 		if(null != dataList && !dataList.isEmpty()){
-			dataList = scrapeDao.saveList(dataList);
+			dataList = scrapeDataDao.saveList(dataList);
 		}
 		CrawllerController crawllerController = new CrawllerController();
 		crawllerController.crawlData(dataList);
@@ -79,9 +76,9 @@ public class ScrapedataController {
 
     @RequestMapping(value="/update", method=RequestMethod.POST)
     public ScrapeData updateData(@RequestBody ScrapeData data) {
-		ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
+//		ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
 		if(null != data){
-			data = scrapeDao.save(data);
+			data = scrapeDataDao.save(data);
 		}
 		return data;
     }

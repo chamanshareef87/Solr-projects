@@ -4,10 +4,9 @@ import java.util.Set;
 
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import com.zyme.controller.CrawllerController;
 import com.zyme.dao.ScrapeDataDao;
 import com.zyme.dao.ScrapeDataDaoImpl;
 import com.zyme.model.ScrapeData;
@@ -21,11 +20,9 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 @Component
-public class MyCrawler extends WebCrawler{
-
-//	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg"
-//  + "|png|mp3|mp3|zip|gz))$");
-	@Autowired
+public class DomainCrawler extends WebCrawler{
+	
+//	@Autowired
 	private ScrapeDataDao scrapeDataDao;
 
 	public ScrapeDataDao getScrapeDataDao() {
@@ -35,16 +32,9 @@ public class MyCrawler extends WebCrawler{
 	public void setScrapeDataDao(ScrapeDataDao scrapeDataDao) {
 		this.scrapeDataDao = scrapeDataDao;
 	}
-	
-	private static int pageNo=1;
+
 	@Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
-//		System.out.println("url:::::"+url);
-//		System.out.println("referringPage:::::"+referringPage);
-//        String href = url.getURL().toLowerCase();
-//        System.out.println("href:::"+href);
-//        return !FILTERS.matcher(href).matches()
-//               && href.startsWith("http://www.zyme.com/");
 		return true;
     }
 	
@@ -53,7 +43,6 @@ public class MyCrawler extends WebCrawler{
         String url = page.getWebURL().getURL();
         System.out.println("URL===================" + url);
         System.out.println("================================");
-        
         if (page.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
             String text = htmlParseData.getText();
@@ -70,14 +59,15 @@ public class MyCrawler extends WebCrawler{
 		try {
 			
 			System.out.println("url at save to db:==========="+url);
+			ScrapeData scrapeData = new ScrapeData();
+			System.out.println("domain::"+(String)this.getMyController().getCustomData());
+			System.out.println("domain::"+CrawllerController.domain);
+			
+			scrapeData.setCompany(CrawllerController.domain);
+			scrapeData.setUrl(url);
+			scrapeData.setContent(text);
 			scrapeDataDao = (ScrapeDataDaoImpl) ApplicationContextProvider.getApplicationContext().getBean("scrapeDataDao");
-	        System.out.println("scrapeDataDao::"+scrapeDataDao);
-			ScrapeData scrapeData = scrapeDataDao.getByurl(url);
-			System.out.println("scrapeData::"+scrapeData.toString());
-			if (null!=scrapeData) {
-				scrapeData.setContent(text);
-				scrapeDataDao.save(scrapeData);
-			}
+			scrapeDataDao.save(scrapeData);
 			if (null!=scrapeData) {
 				savetosolr(scrapeData);
 			}

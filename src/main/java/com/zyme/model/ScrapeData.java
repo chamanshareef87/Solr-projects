@@ -1,22 +1,18 @@
 package com.zyme.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.sql.Date;
 
-@Entity
-@Table(name="scrapedata")
+//@Entity
+//@Table(name="scrapedata")
 public class ScrapeData {
 
-	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@Id
+//	@Column(name="id")
+//	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String company;
 	private String url;
+	private Date insert_time;
 	private String content;
 	
 	public int getId() {
@@ -47,6 +43,11 @@ public class ScrapeData {
 	public String toString() {
 		return "ScrapeData [id=" + id + ", company=" + company + ", url=" + url + ", content=" + content + "]";
 	}
-	
+	public Date getInsert_time() {
+		return insert_time;
+	}
+	public void setInsert_time(Date insert_time) {
+		this.insert_time = insert_time;
+	}
 
 }
