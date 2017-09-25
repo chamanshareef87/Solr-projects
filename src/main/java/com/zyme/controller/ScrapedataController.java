@@ -48,7 +48,6 @@ public class ScrapedataController {
 
     @RequestMapping(value="/add", method = RequestMethod.POST)
     public ScrapeData addData(@RequestBody ScrapeData data) {
-//		ScrapeDataDao scrapeDao = ApplicationContextLoader.getContext().getBean(ScrapeDataDao.class);
 		if(null != data){
 			data = scrapeDataDao.save(data);
 		}

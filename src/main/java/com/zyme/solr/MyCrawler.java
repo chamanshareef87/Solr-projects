@@ -20,12 +20,12 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
-@Component
+//@Component
 public class MyCrawler extends WebCrawler{
 
 //	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg"
 //  + "|png|mp3|mp3|zip|gz))$");
-	@Autowired
+//	@Autowired
 	private ScrapeDataDao scrapeDataDao;
 
 	public ScrapeDataDao getScrapeDataDao() {

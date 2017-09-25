@@ -74,11 +74,7 @@
 		<property name="scrapeDataDao" ref="scrapeDataDao" />
 	</bean>
 	
-	<bean id="domainCrawler" class="com.zyme.solr.DomainCrawler">
-		<property name="scrapeDataDao" ref="scrapeDataDao" />
-	</bean>
-	<bean id="myCrawler" class="com.zyme.solr.MyCrawler">
-		<property name="scrapeDataDao" ref="scrapeDataDao" />
+	<bean id="solrController" class="com.zyme.controller.SolrController">
 	</bean>
 	
 </beans>
