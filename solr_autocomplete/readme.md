@@ -33,6 +33,12 @@ Create core
   5. Search 
 http://localhost:8983/solr/books_suggester1/suggest?q=The&wt=json&indent=true
 
+Indexing data:
+java -Dtype=text/csv -Durl=http://localhost:8983/solr/books_suggester1/update -jar post.jar books_suggest.csv
+
+Rebuild Index:
+http://localhost:8983/solr/books_suggester1/suggest?suggest.q=term&suggest.build=true
+
 Deleting index from core:
 curl "http://localhost:8983/solr/books_suggester1/update?commit=true" -H "Content-Type: text/xml" --data-binary '<delete><query>*:*</query></delete>'
 
